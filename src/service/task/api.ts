@@ -16,10 +16,10 @@ export const createTask = async (
 
 export const editTask = async (
     url: string,
-    { arg, id } : { arg: TaskSchema, id: number }
+    { arg } : { arg: { task: TaskSchema, id: number } }
 ) => {
-    return (await axiosInstance.patch(`${url}/${id}`, {
-        arg
+    return (await axiosInstance.patch(`${url}/${arg.id}`, {
+        arg: arg.task
     })).data
 }
 
