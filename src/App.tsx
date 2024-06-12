@@ -1,10 +1,12 @@
-import { Button } from "./components/ui/button";
+import { SWRProvider } from "./components/provider/SWRProvider";
 
 function App() {
+  
   return (
-    <main className="min-h-screen w-screen p-4">
-      <Button >Botão</Button>
-    </main>
+    <SWRProvider>
+      <main className="min-h-screen w-screen p-4">
+      </main>
+    </SWRProvider>
   );
 }
 

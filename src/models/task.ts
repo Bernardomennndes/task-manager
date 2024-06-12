@@ -1,4 +1,4 @@
-export type Tasks = {
+export type Task = {
     id: number
     category_id: number
     identidier: string
