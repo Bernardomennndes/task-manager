@@ -14,7 +14,7 @@ export const taskSchema = z.object({
     message: "Selecione um horário de início."
   }),
   end: z.string().datetime({
-    message: "Selecione um horário de início."
+    message: "Selecione um horário de fim."
   }),
   priority: z.number().optional(),
   parent_id: z.number().optional(),

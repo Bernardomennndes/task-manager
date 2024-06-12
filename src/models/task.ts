@@ -8,7 +8,7 @@ export type Tasks = {
     end: string
     priority: number
     parent_id: number
-    deleted_at: string
-    created_at: string
-    updated_at: string
+    deleted_at: Date
+    created_at: Date
+    updated_at: Date
 }
