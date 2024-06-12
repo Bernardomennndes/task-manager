@@ -1,7 +1,8 @@
 import z from "zod";
 
 export const taskSchema = z.object({
-  category_id: z.number().optional(),
+  // category: z.enum(["health"]).optional(),
+  category: z.string().optional(),
   title: z
     .string({
       message: "Título obrigatório",
@@ -11,11 +12,11 @@ export const taskSchema = z.object({
     }),
   description: z.string().optional(),
   start: z.string().datetime({
-    message: "Selecione um horário de início."
+    message: "Selecione um horário de início.",
   }),
   end: z.string().datetime({
-    message: "Selecione um horário de fim."
+    message: "Selecione um horário de fim.",
   }),
-  priority: z.number().optional(),
+  priority: z.enum(["low", "medium", "high"]),
   parent_id: z.number().optional(),
 });

@@ -1,14 +1,12 @@
+import { taskSchema } from "@/schemas/task";
+import { z } from "zod";
+
 export type Task = {
-    id: number
-    category_id: number
-    identidier: string
-    title: string
-    description: string
-    start: string
-    end: string
-    priority: number
-    parent_id: number
-    deleted_at: Date
-    created_at: Date
-    updated_at: Date
-}
+  id: number;
+  identifier: string;
+  deleted_at: string;
+  created_at: string;
+  updated_at: string;
+  category: string;
+  sub_tasks: Omit<Task, "sub_tasks">[];
+} & z.infer<typeof taskSchema>;
