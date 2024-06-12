@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Task } from "@/models/task";
 import { DataTableColumnHeader } from "./data-table-column-header";
-import { labels, priorities, statuses } from "@/lib/labels";
+import { priorities, statuses } from "@/lib/labels";
 import { DataTableRowActions } from "./data-table-row-actions";
 
 export const columns: ColumnDef<Task>[] = [
@@ -37,29 +37,32 @@ export const columns: ColumnDef<Task>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Tarefa" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue("id")}</div>,
+    cell: ({ row }) => (
+      <div className="w-[80px] font-semibold text-muted-foreground">
+        {row.getValue("identifier")}
+      </div>
+    ),
     enableSorting: false,
     enableHiding: false,
   },
   {
     accessorKey: "title",
+    id: "título",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Título" />
     ),
-    cell: ({ row }) => {
-      const label = labels.find((label) => label.value === row.original.title);
-
+    cell: ({ getValue }) => {
       return (
         <div className="flex space-x-2">
-          {label && <Badge variant="outline">{label.label}</Badge>}
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("title")}
+            {getValue<string>()}
           </span>
         </div>
       );
     },
   },
   {
+    id: "status",
     accessorKey: "status",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
@@ -74,7 +77,7 @@ export const columns: ColumnDef<Task>[] = [
       }
 
       return (
-        <div className="flex w-[100px] items-center">
+        <div className="flex w-[140px] items-center">
           {status.icon && (
             <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
           )}
@@ -87,13 +90,14 @@ export const columns: ColumnDef<Task>[] = [
     },
   },
   {
+    id: "prioridade",
     accessorKey: "priority",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Prioridade" />
     ),
     cell: ({ row }) => {
       const priority = priorities.find(
-        (priority) => priority.value === row.getValue("priority")
+        (priority) => priority.value === row.getValue("prioridade")
       );
 
       if (!priority) {
