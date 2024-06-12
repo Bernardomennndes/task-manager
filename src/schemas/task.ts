@@ -10,8 +10,12 @@ export const taskSchema = z.object({
       message: "Título deve conter no mínimo 3 caracteres.",
     }),
   description: z.string().optional(),
-  start: z.string().datetime(),
-  end: z.string().datetime(),
+  start: z.string().datetime({
+    message: "Selecione um horário de início."
+  }),
+  end: z.string().datetime({
+    message: "Selecione um horário de início."
+  }),
   priority: z.number().optional(),
   parent_id: z.number().optional(),
 });
