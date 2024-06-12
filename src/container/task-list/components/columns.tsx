@@ -1,6 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Task } from "@/models/task";
 import { DataTableColumnHeader } from "./data-table-column-header";
