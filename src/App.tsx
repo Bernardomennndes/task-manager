@@ -1,3 +1,4 @@
+import { Tasks } from "./components/Tasks";
 import { SWRProvider } from "./components/provider/SWRProvider";
 import TaskPage from "./container/task-list/page";
 
