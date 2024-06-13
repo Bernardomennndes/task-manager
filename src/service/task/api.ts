@@ -10,7 +10,7 @@ export const createTask = async (
     { arg } : { arg: TaskSchema }
 ) => {
     await axiosInstance.post(url, {
-        arg
+        ...arg
     })
 }
 

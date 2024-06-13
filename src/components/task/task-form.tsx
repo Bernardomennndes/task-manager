@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "../ui/input";
 import { FormField } from "../ui/form";
-import { priorities } from "@/lib/labels";
+import { categories, priorities } from "@/lib/labels";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
@@ -39,20 +39,22 @@ export function TaskForm(props: TaskFormProps) {
   const [isPending, startTransition] = useTransition();
 
   function onSubmit(values: FormValues) {
-    console.log(values)
-    // startTransition(() => {
-    //   onSubmitProp?.(values);
-    // });
+    startTransition(() => {
+      onSubmitProp?.(values);
+    });
   }
 
   return (
     <Form.Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="grid grid-cols-2 gap-4"
+      >
         <FormField
           control={form.control}
           name="title"
           render={({ field }) => (
-            <Form.FormItem>
+            <Form.FormItem className="col-span-full">
               <Form.FormLabel>Título</Form.FormLabel>
               <Form.FormControl>
                 <Input placeholder="Título" {...field} />
@@ -65,7 +67,7 @@ export function TaskForm(props: TaskFormProps) {
           control={form.control}
           name="description"
           render={({ field }) => (
-            <Form.FormItem>
+            <Form.FormItem className="col-span-full">
               <Form.FormLabel>Descrição</Form.FormLabel>
               <Form.FormControl>
                 <Input placeholder="Descrição" {...field} />
@@ -78,7 +80,7 @@ export function TaskForm(props: TaskFormProps) {
           control={form.control}
           name="category"
           render={({ field }) => (
-            <Form.FormItem>
+            <Form.FormItem className="col-span-1">
               <Form.FormLabel>Categoria</Form.FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <Form.FormControl>
@@ -87,12 +89,9 @@ export function TaskForm(props: TaskFormProps) {
                   </SelectTrigger>
                 </Form.FormControl>
                 <SelectContent>
-                  {priorities.map((item) => (
+                  {categories.map((item) => (
                     <SelectItem value={item.value}>
-                      <div className="flex min-w-[140px]">
-                        <item.icon className="mr-2 h-4 w-4"/>
-                        {item.label}
-                      </div>
+                      <div className="flex min-w-[140px]">{item.label}</div>
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -104,7 +103,7 @@ export function TaskForm(props: TaskFormProps) {
           control={form.control}
           name="priority"
           render={({ field }) => (
-            <Form.FormItem>
+            <Form.FormItem className="col-span-1">
               <Form.FormLabel>Prioridade</Form.FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <Form.FormControl>
@@ -113,10 +112,10 @@ export function TaskForm(props: TaskFormProps) {
                   </SelectTrigger>
                 </Form.FormControl>
                 <SelectContent>
-                {priorities.map((item) => (
+                  {priorities.map((item) => (
                     <SelectItem value={item.value}>
                       <div className="flex min-w-[140px]">
-                        <item.icon className="mr-2 h-4 w-4"/>
+                        <item.icon className="mr-2 h-4 w-4" />
                         {item.label}
                       </div>
                     </SelectItem>
@@ -130,7 +129,7 @@ export function TaskForm(props: TaskFormProps) {
           control={form.control}
           name="start"
           render={({ field }) => (
-            <Form.FormItem>
+            <Form.FormItem className="col-span-1 flex flex-col">
               <Form.FormLabel>Data de Início</Form.FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
@@ -145,7 +144,7 @@ export function TaskForm(props: TaskFormProps) {
                       {field.value ? (
                         format(field.value, "PPP")
                       ) : (
-                        <span>Pick a date</span>
+                        <span>Selecione a data</span>
                       )}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
@@ -155,7 +154,11 @@ export function TaskForm(props: TaskFormProps) {
                   <Calendar
                     mode="single"
                     selected={new Date(field.value)}
-                    onSelect={field.onChange}
+                    onSelect={(value) => {
+                      field.onChange({
+                        target: { value: value?.toISOString() },
+                      });
+                    }}
                     initialFocus
                   />
                 </PopoverContent>
@@ -167,7 +170,7 @@ export function TaskForm(props: TaskFormProps) {
           control={form.control}
           name="end"
           render={({ field }) => (
-            <Form.FormItem>
+            <Form.FormItem className="col-span-1 flex flex-col">
               <Form.FormLabel>Data de Fim</Form.FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
@@ -182,7 +185,7 @@ export function TaskForm(props: TaskFormProps) {
                       {field.value ? (
                         format(field.value, "PPP")
                       ) : (
-                        <span>Pick a date</span>
+                        <span>Selecione a data</span>
                       )}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
@@ -192,17 +195,19 @@ export function TaskForm(props: TaskFormProps) {
                   <Calendar
                     mode="single"
                     selected={new Date(field.value)}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date < new Date(form.watch("start"))
-                    }
+                    onSelect={(value) => {
+                      field.onChange({
+                        target: { value: value?.toISOString() },
+                      });
+                    }}
+                    disabled={(date) => date < new Date(form.watch("start"))}
                   />
                 </PopoverContent>
               </Popover>
             </Form.FormItem>
           )}
         />
-        <Button disabled={isPending}>
+        <Button disabled={isPending} className="mt-8 col-span-full">
           {defaultValuesProp ? "Salvar" : "Adicionar"}
         </Button>
       </form>

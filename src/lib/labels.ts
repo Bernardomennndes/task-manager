@@ -54,3 +54,26 @@ export const priorities = [
     icon: ArrowUpIcon,
   },
 ];
+
+export const categories = [
+  {
+    label: "Estudo",
+    value: "study",
+  },
+  {
+    label: "Rotina",
+    value: "routine",
+  },
+  {
+    label: "Manutenção",
+    value: "maintenance",
+  },
+  {
+    label: "Saúde",
+    value: "health",
+  },
+  {
+    label: "Finanças",
+    value: "finance",
+  },
+];
