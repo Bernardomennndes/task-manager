@@ -6,7 +6,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuPortal,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Task } from "@/models/task";
@@ -14,6 +18,7 @@ import { useDeleteTask, useEditTask } from "@/service/mutations";
 import * as Drawer from "@/components/ui/drawer";
 import { TaskForm } from "@/components/task/task-form";
 import { useState } from "react";
+import { statuses } from "@/lib/labels";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -74,7 +79,31 @@ export function DataTableRowActions<TData>({
           <DropdownMenuItem onClick={() => setShowDialog(!showDialog)}>
             Editar
           </DropdownMenuItem>
-          {/* <DropdownMenuItem>Favorite</DropdownMenuItem> */}
+          <DropdownMenuSeparator />
+
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <span>Alterar Status</span>
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                {statuses.map((status) => (
+                  <DropdownMenuItem
+                    onClick={() =>
+                      editTrigger({
+                        id: task.id,
+                        task: { status: status.value },
+                      })
+                    }
+                  >
+                    <status.icon className="mr-2 h-4 w-4" />
+                    {status.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="text-destructive"
