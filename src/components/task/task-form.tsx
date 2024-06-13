@@ -40,7 +40,13 @@ export function TaskForm(props: TaskFormProps) {
 
   function onSubmit(values: FormValues) {
     startTransition(() => {
-      onSubmitProp?.(values);
+      const mappedValues: FormValues = {
+        ...values,
+        start: new Date(values.start).toISOString(),
+        end: new Date(values.end).toISOString(),
+      };
+
+      onSubmitProp?.(mappedValues);
     });
   }
 
